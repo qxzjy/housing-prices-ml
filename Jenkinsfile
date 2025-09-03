@@ -30,7 +30,7 @@ pipeline {
                 // Write environment variables to a temporary file
                 // KEEP SINGLE QUOTE FOR SECURITY PURPOSES (MORE INFO HERE: https://www.jenkins.io/doc/book/pipeline/jenkinsfile/#handling-credentials)
                 script {
-                    writeFile file: 'env.list', text: 'DB_URI=$DB_URI'
+                    writeFile file: 'env.list', text: "DB_URI=$DB_URI"
                 }
 
                 // Run a temporary Docker container and pass env variables securely via --env-file
