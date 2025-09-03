@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        DOCKER_IMAGE = 'ml-pipeline-test'
-    }
-
     stages {
         // === Stage 1: Clone the GitHub repository ===
         stage('Clone repository') {
@@ -19,7 +15,7 @@ pipeline {
             steps {
                 script {
                     // This builds a Docker image from the Dockerfile in the repo
-                    docker.build("${DOCKER_IMAGE}:latest")
+                    docker.build("ml-pipeline-test:latest")
                 }
             }
         }
@@ -30,7 +26,7 @@ pipeline {
                 script {
                     // Run a command inside the Docker container built earlier
                     // This uses pytest to run tests and outputs results to results.xml
-                    docker.image("${DOCKER_IMAGE}:latest").inside {
+                    docker.image("ml-pipeline-test:latest").inside {
                         sh 'python -m pytest --junitxml=results.xml'
                     }
                 }
@@ -76,7 +72,6 @@ pipeline {
         //         }
         //     }
         // }
-        //
     }
 
     post {
