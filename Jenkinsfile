@@ -22,10 +22,10 @@ pipeline {
 
         // === Stage 3: Run tests inside the Docker container ===
         stage('Run Tests') {
-            withCredentials([
-                string(credentialsId: 'db-uri', variable: 'DB_URI')
-            ]) {
-                steps {
+            steps {
+                withCredentials([
+                    string(credentialsId: 'db-uri', variable: 'DB_URI')
+                ]) {
                     // Write environment variables to a temporary file
                     // KEEP SINGLE QUOTE FOR SECURITY PURPOSES (MORE INFO HERE: https://www.jenkins.io/doc/book/pipeline/jenkinsfile/#handling-credentials)
                     script {
