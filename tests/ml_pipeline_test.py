@@ -30,10 +30,8 @@ def test_create_pipeline():
 # Test model training (mocking GridSearchCV)
 @mock.patch('app.train.GridSearchCV.fit', return_value=None)
 def test_train_model(mock_fit):
-    artifact_path = "housing-prices-estimator",
-    registered_model_name = "housing-prices-estimator-LR"
     param_grid = {"lasso__alpha": [100]}
     pipe = create_pipeline()
     X_train, X_test, y_train, y_test = preprocess_data(load_data())
-    model = train_and_log_model(pipe, X_train, y_train, param_grid, artifact_path, registered_model_name)
+    model = train_and_log_model(pipe, X_train, y_train, param_grid)
     assert model is not None, "Model training failed"

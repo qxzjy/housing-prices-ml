@@ -33,9 +33,13 @@ def create_pipeline():
         ("lasso",Lasso())
     ], verbose=True)
 
-def train_and_log_model(pipeline, X_train, y_train, param_grid, artifact_path, registered_model_name, cv=3):
+def train_model(pipeline, X_train, y_train, param_grid, cv=3):
     model = GridSearchCV(pipeline, param_grid, cv=cv, scoring="r2")
     model.fit(X_train, y_train)
+
+    return model
+
+def log_model(model, X_train, artifact_path, registered_model_name):
     predictions = model.predict(X_train)
 
     try :
@@ -47,8 +51,6 @@ def train_and_log_model(pipeline, X_train, y_train, param_grid, artifact_path, r
         )
     except mlflow.exceptions.MlflowException as e:
         print("⚠️ Model logging failed:", e)
-
-    return model
 
 if __name__ == "__main__":
 
@@ -77,7 +79,8 @@ if __name__ == "__main__":
 
     # Log experiment to MLFlow
     with mlflow.start_run() as run:
-        train_and_log_model(pipeline, X_train, y_train, param_grid, artifact_path, registered_model_name)
+        model = train_model(pipeline, X_train, y_train, param_grid)
+        log_model(model, X_train, artifact_path, registered_model_name)
         
     print("...Done!")
     print(f"---Total training time: {time.time()-start_time}")
