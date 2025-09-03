@@ -28,15 +28,12 @@ pipeline {
                 ]) {
                     // Write environment variables to a temporary file
                     // KEEP SINGLE QUOTE FOR SECURITY PURPOSES (MORE INFO HERE: https://www.jenkins.io/doc/book/pipeline/jenkinsfile/#handling-credentials)
-                    script {
-                        writeFile file: 'env.list', text: "DB_URI=$DB_URI"
-                    }
-
+                
                     // Run a temporary Docker container and pass env variables securely via --env-file
                     sh '''
-                    docker run --rm --env-file env.list \
+                    docker run --rm \
                     ml-pipeline-test \
-                    bash -c "pytest --maxfail=1 --disable-warnings --junitxml=results.xml"
+                    bash -c "pytest --maxfail=1 --disable-warnings"
                     '''
                 }
             }
