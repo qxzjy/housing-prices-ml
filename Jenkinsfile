@@ -15,7 +15,7 @@ pipeline {
             steps {
                 script {
                     // This builds a Docker image from the Dockerfile in the repo
-                    docker.build("ml-pipeline-test:latest")
+                    sh 'docker build -t ml-pipeline-test .'
                 }
             }
         }
@@ -23,12 +23,23 @@ pipeline {
         // === Stage 3: Run tests inside the Docker container ===
         stage('Run Tests') {
             steps {
-                script {
-                    // Run a command inside the Docker container built earlier
-                    // This uses pytest to run tests and outputs results to results.xml
-                    docker.image("ml-pipeline-test:latest").inside {
-                        sh 'python -m pytest --junitxml=results.xml'
+                withCredentials([
+                    string(credentialsId: 'db-uri', variable: 'DB_URI')
+                ]) {
+                    // Write environment variables to a temporary file
+                    // KEEP SINGLE QUOTE FOR SECURITY PURPOSES (MORE INFO HERE: https://www.jenkins.io/doc/book/pipeline/jenkinsfile/#handling-credentials)
+                    script {
+                        writeFile file: 'env.list', text: '''
+                        DB_URI=$DB_URI
+                        '''
                     }
+
+                    // Run a temporary Docker container and pass env variables securely via --env-file
+                    sh '''
+                    docker run --rm --env-file env.list \
+                    ml-pipeline-test \
+                    bash -c "pytest --maxfail=1 --disable-warnings"
+                    '''
                 }
             }
         }

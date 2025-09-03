@@ -13,4 +13,4 @@ docker_env:
     ]
 entry_points:
   main:
-    command: "python train.py"
+    command: "python app/train.py"
