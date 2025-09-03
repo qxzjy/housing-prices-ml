@@ -8,7 +8,7 @@ from sqlalchemy import create_engine
 
 # Test data loading
 def test_load_data():
-    engine = create_engine(os.getenv("db-uri"), echo=True)
+    engine = create_engine(os.getenv("DB_URI"), echo=True)
 
     with engine.connect() as conn :
         dataset = pd.read_sql("SELECT * FROM housing_prices", conn, index_col="id")
