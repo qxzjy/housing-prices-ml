@@ -1,4 +1,4 @@
-name: housing-prices-tests
+name: mlflow-server-housing-prices
 docker_env:
   image: qxzjy/mlflow-server
   volumes: ["$(pwd):/home/app"]

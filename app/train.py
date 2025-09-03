@@ -8,8 +8,6 @@ from sklearn.linear_model import Lasso
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
 from sqlalchemy import create_engine
-from dotenv import load_dotenv
-load_dotenv()
 
 def load_data():
     engine = create_engine(os.getenv("DB_URI"), echo=True)
@@ -47,7 +45,7 @@ def log_model(model, X_train, artifact_path, registered_model_name):
             sk_model=model,
             artifact_path=artifact_path,
             registered_model_name=registered_model_name,
-            signature=infer_signature(X_train, predictions),
+            signature=infer_signature(X_train, predictions)
         )
     except mlflow.exceptions.MlflowException as e:
         print("⚠️ Model logging failed:", e)
@@ -82,5 +80,3 @@ if __name__ == "__main__":
         
     print("...Done!")
     print(f"---Total training time: {time.time()-start_time}")
-
-    
