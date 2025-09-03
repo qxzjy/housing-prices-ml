@@ -18,7 +18,7 @@ def load_data():
         return pd.read_sql("SELECT * FROM housing_prices", conn, index_col="id")
 
 def preprocess_data(dataset):
-    target_variable = "Price"
+    target_variable = "price"
 
     X = dataset.drop([target_variable] , axis = 1)
     X = X.set_axis(["square_feet", "num_bedrooms", "num_bathrooms", "num_floors", "year_built", "has_garden", "has_pool", "garage_size", "location_score", "distance_to_center"], axis=1)
