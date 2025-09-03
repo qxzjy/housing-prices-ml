@@ -37,7 +37,7 @@ pipeline {
                 sh '''
                 docker run --rm --env-file env.list \
                 ml-pipeline-test \
-                bash -c "pytest --maxfail=1 --disable-warnings"
+                bash -c "pytest --maxfail=1 --disable-warnings --junitxml=results.xml"
                 '''
             }
         }
