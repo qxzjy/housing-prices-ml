@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        DOCKER_IMAGE = 'ml-pipeline-test'
+    }
+
     stages {
         // === Stage 1: Clone the GitHub repository ===
         stage('Clone repository') {
