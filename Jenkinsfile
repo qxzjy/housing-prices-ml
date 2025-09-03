@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        DB_URI = credentials('db-uri')
+    }
+
     stages {
         // === Stage 1: Clone the GitHub repository ===
         stage('Clone repository') {
@@ -23,24 +27,18 @@ pipeline {
         // === Stage 3: Run tests inside the Docker container ===
         stage('Run Tests') {
             steps {
-                withCredentials([
-                    string(credentialsId: 'db-uri', variable: 'DB_URI')
-                ]) {
-                    // Write environment variables to a temporary file
-                    // KEEP SINGLE QUOTE FOR SECURITY PURPOSES (MORE INFO HERE: https://www.jenkins.io/doc/book/pipeline/jenkinsfile/#handling-credentials)
-                    script {
-                        writeFile file: 'env.list', text: '''
-                        DB_URI=$DB_URI
-                        '''
-                    }
-
-                    // Run a temporary Docker container and pass env variables securely via --env-file
-                    sh '''
-                    docker run --rm --env-file env.list \
-                    ml-pipeline-test \
-                    bash -c "pytest --maxfail=1 --disable-warnings"
-                    '''
+                // Write environment variables to a temporary file
+                // KEEP SINGLE QUOTE FOR SECURITY PURPOSES (MORE INFO HERE: https://www.jenkins.io/doc/book/pipeline/jenkinsfile/#handling-credentials)
+                script {
+                    writeFile file: 'env.list', text: 'DB_URI=$DB_URI'
                 }
+
+                // Run a temporary Docker container and pass env variables securely via --env-file
+                sh '''
+                docker run --rm --env-file env.list \
+                ml-pipeline-test \
+                bash -c "pytest --maxfail=1 --disable-warnings"
+                '''
             }
         }
 
