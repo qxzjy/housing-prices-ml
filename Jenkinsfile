@@ -41,14 +41,6 @@ pipeline {
                 }
             }
         }
-
-        // === Stage 4: Archive test results ===
-        stage('Archive Results') {
-            steps {
-                // This tells Jenkins to store the test result file so it can be displayed in the UI
-                junit 'results.xml'
-            }
-        }
     }
 
     post {
