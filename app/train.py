@@ -12,7 +12,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 def load_data():
-    engine = create_engine(os.getenv("db-uri"), echo=True)
+    engine = create_engine(os.getenv("DB_URI"), echo=True)
 
     with engine.connect() as conn :
         return pd.read_sql("SELECT * FROM housing_prices", conn, index_col="id")
