@@ -15,7 +15,8 @@ pipeline {
             steps {
                 script {
                     // This builds a Docker image from the Dockerfile in the repo
-                    docker.build("ml-pipeline-test:latest")
+                    //docker.build("ml-pipeline-test:latest")
+                    sh 'docker build -t ml-pipeline-test .'
                 }
             }
         }
@@ -26,9 +27,10 @@ pipeline {
                 script {
                     // Run a command inside the Docker container built earlier
                     // This uses pytest to run tests and outputs results to results.xml
-                    docker.image("ml-pipeline-test:latest").inside {
-                        sh 'python -m pytest --junitxml=results.xml'
-                    }
+                    // docker.image("ml-pipeline-test:latest").inside {
+                    //    sh 'python -m pytest --junitxml=results.xml'
+                    //}
+                    sh 'python -m pytest --junitxml=results.xml'
                 }
             }
         }
