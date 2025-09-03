@@ -1,7 +1,7 @@
 import os
 import pytest
 import pandas as pd
-from app.train import load_data, preprocess_data, create_pipeline, train_and_log_model
+from app.train import load_data, preprocess_data, create_pipeline, train_model
 from unittest import mock
 from sqlalchemy import create_engine
 
@@ -33,5 +33,5 @@ def test_train_model(mock_fit):
     param_grid = {"lasso__alpha": [100]}
     pipe = create_pipeline()
     X_train, X_test, y_train, y_test = preprocess_data(load_data())
-    model = train_and_log_model(pipe, X_train, y_train, param_grid)
+    model = train_model(pipe, X_train, y_train, param_grid)
     assert model is not None, "Model training failed"
