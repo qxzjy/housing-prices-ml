@@ -54,8 +54,6 @@ def log_model(model, X_train, artifact_path, registered_model_name):
 
 if __name__ == "__main__":
 
-    artifact_path = "housing-prices-estimator",
-    registered_model_name = "housing-prices-estimator-LR"
     param_grid = {
         "lasso__alpha": [i for i in range(100, 1000, 25)]
     }
@@ -80,7 +78,7 @@ if __name__ == "__main__":
     # Log experiment to MLFlow
     with mlflow.start_run() as run:
         model = train_model(pipeline, X_train, y_train, param_grid)
-        log_model(model, X_train, artifact_path, registered_model_name)
+        log_model(model, X_train, "housing-prices-estimator", "housing-prices-estimator-LR")
         
     print("...Done!")
     print(f"---Total training time: {time.time()-start_time}")
