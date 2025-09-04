@@ -46,7 +46,6 @@ pipeline {
     // === Stage 4: Clean workspace, dangling Docker images and return result ===
     post {
         always {
-            // Clean up workspace and remove dangling Docker images
             sh 'rm env.list'
             sh 'docker system prune -f'
         }
