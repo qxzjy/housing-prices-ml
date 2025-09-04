@@ -43,7 +43,7 @@ pipeline {
         }
     }
 
-    // === Stage 4: Clean workspace, dangling Docker images and return result ===
+    // === Stage 4: Clean workspace, dangling Docker images and return result === 
     post {
         always {
             sh 'rm env.list'
