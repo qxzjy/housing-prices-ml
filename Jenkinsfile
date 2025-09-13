@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     stages {
+        
         // === Stage 1: Clone the GitHub repository ===
         stage('Clone repository') {
             steps {
