@@ -1,8 +1,8 @@
-# Est'Immo ML model & CI/CD
+# Est'Immo ML model & CI/CD pipeline
 
 ## Context
 
-This repository contains the CI/CD pipeline and ML core code for [Est'Immo](https://github.com/qxzjy/housing-prices/), an application designed for real estate estimation !
+This repository contains the CI/CD pipeline and ML model code for [Est'Immo](https://github.com/qxzjy/housing-prices/), an application designed for real estate estimation !
 
 ## Features
 
