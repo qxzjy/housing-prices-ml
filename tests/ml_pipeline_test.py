@@ -8,22 +8,22 @@ from sqlalchemy import create_engine
 
 # Test data loading
 def test_load_data():
-    engine = create_engine(os.getenv("DB_URI"), echo=True)
-
-    with engine.connect() as conn :
-        dataset = pd.read_sql("SELECT * FROM housing_prices", conn, index_col="id")
+    dataset = load_data()
+    
     assert not dataset.empty, "Dataframe is empty"
 
 # Test data preprocessing
 def test_preprocess_data():
     dataset = load_data()
     X_train, X_test, y_train, y_test = preprocess_data(dataset)
+
     assert len(X_train) > 0, "Training data is empty"
     assert len(X_test) > 0, "Test data is empty"
 
 # Test pipeline creation
 def test_create_pipeline():
     pipeline = create_pipeline()
+
     assert "standard_scaler" in pipeline.named_steps, "Standard scaler missing in pipeline"
     assert "lasso" in pipeline.named_steps, "Lasso regressor missing in pipeline"
 
@@ -34,4 +34,5 @@ def test_train_model(mock_fit):
     pipe = create_pipeline()
     X_train, X_test, y_train, y_test = preprocess_data(load_data())
     model = train_model(pipe, X_train, y_train, param_grid)
+
     assert model is not None, "Model training failed"
